@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BroLink — Espacio privado</title>
+<link rel="icon" href="/brolink-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/brolink-icon.svg">
+<meta name="theme-color" content="#071523">
+<meta property="og:type" content="website">
+<meta property="og:title" content="BroLink — Espacio privado">
+<meta property="og:description" content="Archivos, enlaces e ideas entre hermanos, siempre disponibles.">
+<meta property="og:url" content="https://brolink.vercel.app/">
+<meta property="og:image" content="https://brolink.vercel.app/brolink-logo.svg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://brolink.vercel.app/brolink-logo.svg">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<!-- Login -->
+<section id="authScreen" class="auth-screen">
+  <div class="auth-shell">
+    <div class="auth-hero">
+      <img class="auth-logo" src="/brolink-logo.svg" alt="BroLink">
+      <div class="auth-copy"><h1>Más cerca, siempre.</h1><p>Un espacio privado para compartir archivos, enlaces, notas e ideas entre tú y tu hermano.</p></div>
+      <div class="muted">Privado · Seguro · Disponible desde cualquier ordenador</div>
+    </div>
+    <div class="auth-card">
+      <h2>Entrar en BroLink</h2><p class="muted">Usa Google o tu correo.</p>
+      <div class="stack" style="margin-top:22px">
+        <button id="googleBtn" class="btn google">G &nbsp; Continuar con Google</button>
+        <div class="divider">o</div>
+        <input id="authEmail" class="input" type="email" placeholder="Correo electrónico">
+        <input id="authPassword" class="input" type="password" placeholder="Contraseña">
+        <button id="loginBtn" class="btn primary">Iniciar sesión</button>
+        <button id="signupBtn" class="btn secondary">Crear cuenta</button>
+        <button id="resetBtn" class="text-btn">He olvidado mi contraseña</button>
+        <div id="authError" class="auth-error"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- App -->
+<section id="app" class="app hidden">
+  <header class="masthead">
+    <div class="mast-brand"><img src="/brolink-logo.svg" alt="BroLink"></div>
+    <div class="tagline">Más cerca, siempre</div>
+    <div class="mast-actions">
+      <div class="presence-box"><div id="selfAvatar" class="presence-avatar">T</div><div><strong>Tú <span class="presence-dot"></span></strong><small id="selfStatus">Conectado</small></div></div>
+      <div class="presence-box"><div id="broAvatar" class="presence-avatar bro">H</div><div><strong>Tu hermano <span id="broDot" class="presence-dot off"></span></strong><small id="broStatus">Comprobando…</small></div></div>
+      <button id="logoutTop" class="logout-top"><svg class="icon"><path d="M10 17l5-5-5-5M15 12H3M21 19V5a2 2 0 0 0-2-2h-6"/></svg>Cerrar sesión</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <nav class="nav">
+        <button class="active" data-view="inicio"><svg class="icon"><path d="M3 11.5 12 4l9 7.5M5.5 10v10h13V10M9.5 20v-6h5v6"/></svg><span>Inicio</span></button>
+        <button data-view="inicio" data-focus="file"><svg class="icon"><path d="M7 3h7l4 4v14H7zM14 3v5h5M10 13h5M10 17h5"/></svg><span>Enviar archivo</span></button>
+        <button data-view="inicio" data-focus="link"><svg class="icon"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.1-1.1"/></svg><span>Enviar enlace</span></button>
+        <button data-view="archivos"><svg class="icon"><path d="M3 6h6l2 2h10v11H3zM3 6V4h6l2 2"/></svg><span>Mis archivos</span></button>
+        <button data-view="historial"><svg class="icon"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7v5l3 2"/></svg><span>Historial</span></button>
+        <button data-view="favoritos"><svg class="icon"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-2.9-5.6 2.9 1.1-6.2L3 9.6l6.2-.9z"/></svg><span>Favoritos</span></button>
+        <button data-view="papelera"><svg class="icon"><path d="M4 7h16M9 7V4h6v3M7 7l1 14h8l1-14M10 11v6M14 11v6"/></svg><span>Papelera</span></button>
+        <button data-view="ajustes"><svg class="icon"><path d="M12 15.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM19.4 15a1.7 1.7 0 0 0 .3 1.9l.1.1-2.8 2.8-.1-.1a1.7 1.7 0 0 0-1.9-.3 1.7 1.7 0 0 0-1 1.6V21h-4v-.1a1.7 1.7 0 0 0-1-1.6 1.7 1.7 0 0 0-1.9.3l-.1.1L4.2 17l.1-.1a1.7 1.7 0 0 0 .3-1.9A1.7 1.7 0 0 0 3 14H3v-4h.1a1.7 1.7 0 0 0 1.6-1 1.7 1.7 0 0 0-.3-1.9L4.2 7 7 4.2l.1.1a1.7 1.7 0 0 0 1.9.3 1.7 1.7 0 0 0 1-1.6V3h4v.1a1.7 1.7 0 0 0 1 1.6 1.7 1.7 0 0 0 1.9-.3l.1-.1L19.8 7l-.1.1a1.7 1.7 0 0 0-.3 1.9 1.7 1.7 0 0 0 1.6 1h.1v4H21a1.7 1.7 0 0 0-1.6 1z"/></svg><span>Configuración</span></button>
+      </nav>
+      <div class="storage-card">
+        <div class="storage-title">Espacio usado</div><div class="bar"><div id="storageFill" class="bar-fill"></div></div>
+        <div class="storage-meta"><span id="storageText">Comprobando…</span><span id="storagePct">—</span></div>
+        <div class="private-note"><svg class="icon sm"><path d="M12 21s-7-4.4-7-10a4 4 0 0 1 7-2.7A4 4 0 0 1 19 11c0 5.6-7 10-7 10z"/></svg><span>Un espacio privado<br>solo para vosotros</span></div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="inicio" class="view">
+        <div class="top-send">
+          <div class="send-grid">
+            <div id="filePanel">
+              <label id="dropzone" class="dropzone">
+                <input id="fileInput" type="file" multiple>
+                <div class="upload-circle"><svg class="icon lg"><path d="M12 16V5M8 9l4-4 4 4M5 15v4h14v-4"/></svg></div>
+                <div><h2>Arrastra aquí tus archivos</h2><p>o haz clic para seleccionar</p><small>Puedes enviar documentos, imágenes, vídeos, archivos comprimidos, etc.</small><div id="uploadLimit" class="upload-limit">Cuenta Drime: 20 GB totales · calculando espacio libre…</div><div id="fileSelected" class="file-selected"></div></div>
+              </label>
+              <div id="filePreview" class="preview-grid hidden"></div>
+            </div>
+            <div class="divider-v"></div>
+            <div id="linkPanel" class="link-panel">
+              <div class="link-title"><div class="link-iconbox"><svg class="icon lg"><path d="M10 13a5 5 0 0 0 7.1.1l2-2a5 5 0 0 0-7.1-7.1l-1.1 1.1M14 11a5 5 0 0 0-7.1-.1l-2 2A5 5 0 0 0 12 20l1.1-1.1"/></svg></div><h2>Enviar un enlace</h2></div>
+              <div class="link-row"><input id="linkUrl" class="input" placeholder="https://"><button id="sendLink" class="btn primary send-link-btn">Enviar enlace</button></div>
+              <textarea id="linkNote" class="input" rows="3" style="margin-top:12px" placeholder="Mensaje opcional para el enlace"></textarea>
+            </div>
+          </div>
+          <div class="message-row"><div class="message-wrap"><svg class="icon message-icon"><path d="M4 4h16v12H7l-3 3zM8 9h8M8 12h5"/></svg><input id="fileMessage" class="input" placeholder="Añade un mensaje para los archivos (opcional)…"></div><button id="sendFiles" class="btn primary send-files-btn"><svg class="icon sm"><path d="m21 3-7 18-4-8-8-4zM10 13l11-10"/></svg>Enviar</button></div>
+          <div id="uploadNotice" class="notice hidden"></div>
+        </div>
+
+        <div class="feed-grid">
+          <article class="feed-card"><div class="feed-head"><svg class="icon head-user"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg>Enviado por mí</div><div id="mineList" class="feed-list"></div><button class="list-footer" data-view-jump="historial"><span>◷ &nbsp; Ver todo mi historial</span><span>→</span></button></article>
+          <article class="feed-card received"><div class="feed-head"><svg class="icon head-user"><path d="M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM4 21a8 8 0 0 1 16 0"/></svg>Enviado por mi hermano</div><div id="otherList" class="feed-list"></div><button class="list-footer" data-view-jump="historial"><span>◷ &nbsp; Ver todo el historial de mi hermano</span><span>→</span></button></article>
+        </div>
+      </section>
+
+      <section id="archivos" class="view hidden"><div class="page-card"><div class="page-head"><h2>Mis archivos</h2><span class="muted">Archivos enviados y recibidos</span></div><div id="filesList" class="page-list"></div></div></section>
+      <section id="historial" class="view hidden"><div class="page-card"><div class="page-head"><h2>Historial</h2><span class="muted">Todo lo compartido entre vosotros</span></div><div id="historyList" class="page-list"></div></div></section>
+      <section id="favoritos" class="view hidden"><div class="page-card"><div class="page-head"><h2>Favoritos</h2><span class="muted">Tus elementos marcados</span></div><div id="favoritesList" class="page-list"></div></div></section>
+      <section id="papelera" class="view hidden"><div class="page-card"><div class="page-head"><h2>Papelera</h2><span class="muted">Solo tú ves lo que mandas aquí</span></div><div id="trashList" class="page-list"></div></div></section>
+      <section id="ajustes" class="view hidden"><div class="settings-grid">
+        <div class="settings-card"><div class="profile-big"><div id="settingsAvatar" class="avatar-big">U</div><div><h2 id="settingsName">Usuario</h2><div id="settingsEmail" class="muted"></div></div></div><div class="stack"><label>Nombre<input id="profileName" class="input"></label><label>Foto de perfil<input id="profileAvatarFile" class="input" type="file" accept="image/png,image/jpeg,image/webp"></label><div class="help">PNG, JPG o WebP · máximo 2 MB</div><button id="saveProfile" class="btn primary">Guardar perfil</button><div id="profileNotice" class="notice hidden"></div></div></div>
+        <div class="settings-card"><h2>Cuenta</h2><div class="stack" style="margin-top:16px"><input id="newEmail" class="input" type="email" placeholder="Nuevo correo"><input id="newPassword" class="input" type="password" placeholder="Nueva contraseña"><button id="saveAccount" class="btn secondary">Actualizar cuenta</button></div><div class="danger-zone"><button id="logoutSettings" class="btn btn-danger">Cerrar sesión</button></div></div>
+      </div></section>
+
+      <footer class="footer">Archivos, ideas y proyectos. Siempre juntos.<div class="footer-right"><span>Privado</span><span>|</span><span>Seguro</span><span>|</span><span>Sencillo</span></div></footer>
+    </main>
+  </div>
+</section>
+
+<script src="/app.js?v=realtime-delete-v1" defer></script>
+</body>
+</html>

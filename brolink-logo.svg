@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 220" role="img" aria-label="BroLink">
+<defs>
+ <linearGradient id="red" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#ff525f"/><stop offset=".55" stop-color="#ef151f"/><stop offset="1" stop-color="#85040d"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#60e8ff"/><stop offset=".45" stop-color="#138dff"/><stop offset="1" stop-color="#0644b9"/></linearGradient>
+ <linearGradient id="mix" x1="0" y1="0" x2="1" y2="0"><stop stop-color="#0f7bff"/><stop offset=".45" stop-color="#a82dff"/><stop offset="1" stop-color="#ff2a35"/></linearGradient>
+ <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+</defs>
+<g transform="translate(16 18)" filter="url(#soft)">
+ <circle cx="78" cy="42" r="27" fill="url(#blue)" stroke="#78efff" stroke-width="3"/>
+ <path d="M22 138c0-47 25-75 56-75s56 28 56 75" fill="url(#blue)" stroke="#37d7ff" stroke-width="4"/>
+ <circle cx="170" cy="42" r="27" fill="url(#red)" stroke="#ff8289" stroke-width="3"/>
+ <path d="M114 138c0-47 25-75 56-75s56 28 56 75" fill="url(#red)" stroke="#ff4a52" stroke-width="4"/>
+ <path d="M44 133c31-58 78-58 112 0 28 47 69 47 95 0" fill="none" stroke="url(#mix)" stroke-width="25" stroke-linecap="round" opacity=".92"/>
+ <path d="M44 133c31-58 78-58 112 0 28 47 69 47 95 0" fill="none" stroke="#dff8ff" stroke-width="2.3" stroke-linecap="round" opacity=".9"/>
+ <g transform="translate(95 90)">
+  <path d="M0 10 38-18 76 10 38 38Z" fill="#071a52" stroke="#68c9ff" stroke-width="2"/>
+  <path d="M29-8h24l13 13v27H29z" fill="#fff"/><path d="M53-8V6h13" fill="none" stroke="#28508b" stroke-width="3"/><path d="M36 13h18M36 22h18" stroke="#193d78" stroke-width="4" stroke-linecap="round"/>
+ </g>
+</g>
+<g filter="url(#glow)">
+ <text x="270" y="150" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="116" font-weight="900" letter-spacing="-8" fill="url(#red)">Bro</text>
+ <text x="467" y="150" font-family="Inter,Segoe UI,Arial,sans-serif" font-size="116" font-weight="900" letter-spacing="-8" fill="url(#blue)">Link</text>
+</g>
+<path d="M270 161h420" stroke="url(#mix)" stroke-width="2" opacity=".55"/>
+</svg>
