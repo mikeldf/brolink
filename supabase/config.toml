@@ -1,0 +1,3 @@
+[functions.drime-upload]
+verify_jwt = false
+
